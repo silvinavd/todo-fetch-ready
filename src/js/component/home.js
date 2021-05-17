@@ -36,7 +36,7 @@ export function Home() {
 			}
 		});
 		setTodoList(nuevaLista);
-		// updateData(...todoList);
+		updateData(nuevaLista);
 	};
 
 	//MOUSE OVER
@@ -72,42 +72,43 @@ export function Home() {
 			.catch(error => console.log(error));
 	};
 	return (
-		<div className="container-fluid">
-			<div className="row d-flex justify-content-center">
-				<div className="col-12 col-md-6 col-xl-4">
-					<div className="card mt-3" style={{ width: "100%" }}>
-						<input
-							onKeyPress={handleKeyPress}
-							placeholder="Agregar tarea"
-						/>
-						<ul className="list-group list-group-flush">
-							{todoList.length === 0 ? (
-								<li className="list-group-item">
-									Ingresar tarea
+		<div className="container">
+			<div className="row d-flex justify-content-center container">
+				<div className="text-center mt-3">
+					Escribe tu tarea y presiona Enter
+					<i className="fas fa-edit ml-2 mt-1"></i>
+				</div>
+				<div className="card col-12 mt-3 p-0 mb-3">
+					<input
+						onKeyPress={handleKeyPress}
+						placeholder="Agregar tarea"
+						className="form-control p-1"
+					/>
+					<ul className="list-group list-group-flush">
+						{todoList.length === 1 ? (
+							<li className="list-group-item p-1">...</li>
+						) : (
+							todoList.map((tarea, i) => (
+								<li
+									key={i}
+									className="list-group-item p-1"
+									onClick={() => {
+										eliminar(i);
+									}}
+									onMouseOver={() => {
+										mouseencima(i);
+									}}>
+									{tarea.label}
+									<i
+										type="button"
+										className={
+											"fas fa-trash-alt float-right" +
+											(mouse == i ? "" : " hide")
+										}></i>
 								</li>
-							) : (
-								todoList.map((tarea, i) => (
-									<li
-										key={i}
-										className="list-group-item"
-										onClick={() => {
-											eliminar(i);
-										}}
-										onMouseOver={() => {
-											mouseencima(i);
-										}}>
-										{tarea.label}
-										<i
-											type="button"
-											className={
-												"fas fa-trash-alt float-right" +
-												(mouse == i ? "" : " hide")
-											}></i>
-									</li>
-								))
-							)}
-						</ul>
-					</div>
+							))
+						)}
+					</ul>
 				</div>
 			</div>
 		</div>
