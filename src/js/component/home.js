@@ -6,10 +6,13 @@ import rigoImage from "../../img/rigo-baby.jpg";
 //create your first component
 export function Home() {
 	const [todoList, setTodoList] = useState([]);
+	const [mouse, setMouse] = useState();
 
 	useEffect(() => {
 		getData();
 	}, []);
+
+	//AGREGAR TAREA
 
 	const handleKeyPress = e => {
 		if (e.target.value !== "" && e.charCode === 13) {
@@ -22,6 +25,23 @@ export function Home() {
 			updateData(newTareaList);
 			e.target.value = "";
 		}
+	};
+
+	//ELIMINAR TAREA
+
+	const eliminar = i => {
+		let nuevaLista = todoList.filter((elem, index) => {
+			if (index != i) {
+				return elem;
+			}
+		});
+		setTodoList(nuevaLista);
+		// updateData(...todoList);
+	};
+
+	//MOUSE OVER
+	const mouseencima = i => {
+		setMouse(i);
 	};
 
 	//FETCH A API. TRAER DATA
@@ -67,8 +87,22 @@ export function Home() {
 								</li>
 							) : (
 								todoList.map((tarea, i) => (
-									<li key={i} className="list-group-item">
+									<li
+										key={i}
+										className="list-group-item"
+										onClick={() => {
+											eliminar(i);
+										}}
+										onMouseOver={() => {
+											mouseencima(i);
+										}}>
 										{tarea.label}
+										<i
+											type="button"
+											className={
+												"fas fa-trash-alt float-right" +
+												(mouse == i ? "" : " hide")
+											}></i>
 									</li>
 								))
 							)}
